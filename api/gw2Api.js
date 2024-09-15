@@ -53,14 +53,26 @@ export async function fetchEliteSpecializations() {
   return eliteSpecializations;
 }
 
-// Function to fetch trait data
-export async function fetchTrait(id) {
-  const TRAIT_URL = `${GW2_BASE_API_URL}/traits`;
-  return fetchWithCache(`${TRAIT_URL}/${id}`);
+// Function to fetch all skill IDs
+export async function fetchAllSkillIDs() {
+  const SKILL_URL = `${GW2_BASE_API_URL}/skills`;
+  return fetchWithCache(SKILL_URL);
 }
 
 // Function to fetch skill data
 export async function fetchSkill(id) {
   const SKILL_URL = `${GW2_BASE_API_URL}/skills`;
   return fetchWithCache(`${SKILL_URL}/${id}`);
+}
+
+// Function to fetch all trait IDs
+export async function fetchAllTraitIDs() {
+  const TRAIT_URL = `${GW2_BASE_API_URL}/traits`;
+  return fetchWithCache(TRAIT_URL);
+}
+
+// Function to fetch trait data
+export async function fetchTrait(id) {
+  const TRAIT_URL = `${GW2_BASE_API_URL}/traits`;
+  return fetchWithCache(`${TRAIT_URL}/${id}`);
 }
