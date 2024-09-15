@@ -43,26 +43,36 @@ export async function fetchEliteSpecializations() {
 export async function fetchAndStoreSkill(id) {
   const url = `${GW2_BASE_API_URL}/skills/${id}`;
   const skill = await fetchWithCache(url);
-  await fetch(`${SERVER_API_URL}/skill`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(skill),
-  });
+
+  // Check if the skill already exists in the database
+  const existingSkill = await getSkillByName(skill.name);
+  if (!existingSkill) {
+    await fetch(`${SERVER_API_URL}/skill`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(skill),
+    });
+  }
 }
 
 // Function to fetch trait data and store it in the database
 export async function fetchAndStoreTrait(id) {
   const url = `${GW2_BASE_API_URL}/traits/${id}`;
   const trait = await fetchWithCache(url);
-  await fetch(`${SERVER_API_URL}/trait`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(trait),
-  });
+
+  // Check if the trait already exists in the database
+  const existingTrait = await getTraitByName(trait.name);
+  if (!existingTrait) {
+    await fetch(`${SERVER_API_URL}/trait`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(trait),
+    });
+  }
 }
 
 // Function to get skill data by name
