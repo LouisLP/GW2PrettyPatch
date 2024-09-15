@@ -1,10 +1,21 @@
-import {
-  fetchAllSkillIDs,
-  fetchSkill,
-  fetchAllTraitIDs,
-  fetchTrait,
-} from "../api/gw2api";
+import { getSkill, getTrait } from "../api/gw2api.js";
 import $ from "jquery";
+
+// Function to extract names from <ul> elements
+export function extractNamesFromPatchNotes(patchNotes) {
+  const $patchNotes = $("<div>").html(patchNotes);
+  const names = [];
+
+  $patchNotes.find("ul[type='disc'] li span").each(function () {
+    const text = $(this).text();
+    const name = text.split(":")[0].trim();
+    if (name) {
+      names.push(name);
+    }
+  });
+
+  return names;
+}
 
 // Function to identify skills and traits in the text
 export function identifySkillsAndTraits(text, names) {
@@ -33,14 +44,17 @@ export function addIcons(patchNotes, icons) {
 
 // Function to fetch and fill skill and trait data
 export async function fillSkillAndTraitData(patchNotes) {
-  const skillIDs = await fetchAllSkillIDs();
-  const traitIDs = await fetchAllTraitIDs();
+  const names = extractNamesFromPatchNotes(patchNotes);
 
-  const skills = await Promise.all(skillIDs.map((id) => fetchSkill(id)));
-  const traits = await Promise.all(traitIDs.map((id) => fetchTrait(id)));
+  const skills = await Promise.all(
+    names.map((name) => getSkill(name).catch(() => null))
+  );
+  const traits = await Promise.all(
+    names.map((name) => getTrait(name).catch(() => null))
+  );
 
-  const skillNames = skills.map((skill) => skill.name);
-  const traitNames = traits.map((trait) => trait.name);
+  const skillNames = skills.filter((skill) => skill).map((skill) => skill.name);
+  const traitNames = traits.filter((trait) => trait).map((trait) => trait.name);
 
   const identifiedSkillsAndTraits = identifySkillsAndTraits(patchNotes, [
     ...skillNames,
@@ -51,14 +65,14 @@ export async function fillSkillAndTraitData(patchNotes) {
 
   // Map skill names to icons
   for (const skill of skills) {
-    if (identifiedSkillsAndTraits.includes(skill.name)) {
+    if (skill && identifiedSkillsAndTraits.includes(skill.name)) {
       icons[skill.name] = skill.icon;
     }
   }
 
   // Map trait names to icons
   for (const trait of traits) {
-    if (identifiedSkillsAndTraits.includes(trait.name)) {
+    if (trait && identifiedSkillsAndTraits.includes(trait.name)) {
       icons[trait.name] = trait.icon;
     }
   }
