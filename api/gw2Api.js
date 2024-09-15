@@ -15,15 +15,42 @@ async function fetchWithCache(url) {
 }
 
 // Function to fetch profession data
-export async function fetchProfession(profession) {
+export async function fetchProfession(professionName) {
   const PROFESSION_URL = `${GW2_BASE_API_URL}/professions`;
-  return fetchWithCache(`${PROFESSION_URL}/${profession}`);
+  return fetchWithCache(`${PROFESSION_URL}/${professionName}`);
+}
+
+// Function to fetch all specialization IDs
+export async function fetchAllSpecializationIDs() {
+  const SPECIALIZATION_URL = `${GW2_BASE_API_URL}/specializations`;
+  return fetchWithCache(SPECIALIZATION_URL);
 }
 
 // Function to fetch specialization data
 export async function fetchSpecialization(id) {
   const SPECIALIZATION_URL = `${GW2_BASE_API_URL}/specializations`;
   return fetchWithCache(`${SPECIALIZATION_URL}/${id}`);
+}
+
+// Function to fetch elite specializations
+export async function fetchEliteSpecializations() {
+  const allSpecializationIDs = await fetchAllSpecializationIDs();
+  const eliteSpecializations = [];
+
+  for (const id of allSpecializationIDs) {
+    const specialization = await fetchSpecialization(id);
+    if (specialization.elite) {
+      eliteSpecializations.push({
+        id: specialization.id,
+        name: specialization.name,
+        profession: specialization.profession,
+        icon: specialization.profession_icon,
+        background: specialization.background,
+      });
+    }
+  }
+
+  return eliteSpecializations;
 }
 
 // Function to fetch trait data
