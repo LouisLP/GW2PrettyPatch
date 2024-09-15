@@ -1,8 +1,4 @@
-const GW2_BASE_API_URL = "https://api.guildwars2.com/v2";
-const PROFESSION_URL = `${GW2_BASE_API_URL}/professions`;
-const SPECIALIZATION_URL = `${GW2_BASE_API_URL}/specializations`;
-const TRAIT_URL = `${GW2_BASE_API_URL}/traits`;
-const SKILL_URL = `${GW2_BASE_API_URL}/skills`;
+import { fetchProfession } from "../api/gw2api";
 
 const professions = [
   "Guardian",
@@ -15,40 +11,6 @@ const professions = [
   "Mesmer",
   "Necromancer",
 ];
-
-// Cache for API responses
-const apiCache = new Map();
-
-// Helper function for API calls with caching
-async function fetchWithCache(url) {
-  if (apiCache.has(url)) {
-    return apiCache.get(url);
-  }
-  const response = await fetch(url);
-  const data = await response.json();
-  apiCache.set(url, data);
-  return data;
-}
-
-// Function to fetch profession data
-async function fetchProfession(profession) {
-  return fetchWithCache(`${PROFESSION_URL}/${profession}`);
-}
-
-// Function to fetch specialization data
-async function fetchSpecialization(id) {
-  return fetchWithCache(`${SPECIALIZATION_URL}/${id}`);
-}
-
-// Function to fetch trait data
-async function fetchTrait(id) {
-  return fetchWithCache(`${TRAIT_URL}/${id}`);
-}
-
-// Function to fetch skill data
-async function fetchSkill(id) {
-  return fetchWithCache(`${SKILL_URL}/${id}`);
-}
 
 // Function to identify professions in the text
 function identifyProfessions(text) {
