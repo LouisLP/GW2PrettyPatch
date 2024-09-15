@@ -1,10 +1,12 @@
 import { fillProfessionData } from "../components/professions";
+import { fillSpecializationData } from "../components/EliteSpecializations";
 
 // Main function to process patch notes
 async function processPatchNotes() {
-  const patchNotes = document.body.innerHTML;
-  const updatedPatchNotes = await fillProfessionData(patchNotes);
-  document.body.innerHTML = updatedPatchNotes;
+  let patchNotes = document.body.innerHTML;
+  patchNotes = await fillProfessionData(patchNotes);
+  patchNotes = await fillSpecializationData(patchNotes);
+  document.body.innerHTML = patchNotes;
 }
 
 // Run the main function once the DOM is fully loaded
