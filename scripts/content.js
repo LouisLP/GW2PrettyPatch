@@ -1,6 +1,6 @@
-import { fillProfessionData } from "../components/professions";
-import { fillSpecializationData } from "../components/EliteSpecializations";
-import { fillSkillAndTraitData } from "../components/skillsAndTraits";
+import { fillProfessionData } from "../components/professions.js";
+import { fillSpecializationData } from "../components/EliteSpecializations.js";
+import { fillSkillAndTraitData } from "../components/skillsAndTraits.js";
 
 // Main function to process patch notes
 async function processPatchNotes() {

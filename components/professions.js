@@ -1,5 +1,5 @@
-import { fetchProfession } from "../api/gw2api";
-import { professionNames } from "../data/professions";
+import { fetchProfession } from "../api/gw2api.js";
+import { professionNames } from "../data/professions.js";
 import $ from "jquery";
 
 // Function to identify professions in the text

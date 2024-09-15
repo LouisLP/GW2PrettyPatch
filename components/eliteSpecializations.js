@@ -1,5 +1,5 @@
-import { fetchEliteSpecializations } from "../api/gw2api";
-import { eliteSpecializationNames } from "../data/eliteSpecializations";
+import { fetchEliteSpecializations } from "../api/gw2api.js";
+import { eliteSpecializationNames } from "../data/eliteSpecializations.js";
 import $ from "jquery";
 
 // Function to identify specializations in the text
