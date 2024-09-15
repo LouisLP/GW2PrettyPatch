@@ -1,21 +1,10 @@
 import { fetchProfession } from "../api/gw2api";
+import { professionNames } from "../data/professions";
 import $ from "jquery";
-
-const professions = [
-  "Guardian",
-  "Warrior",
-  "Revenant",
-  "Ranger",
-  "Thief",
-  "Engineer",
-  "Elementalist",
-  "Mesmer",
-  "Necromancer",
-];
 
 // Function to identify professions in the text
 export function identifyProfessions(text) {
-  const professionPattern = professions.join("|");
+  const professionPattern = professionNames.join("|");
   const regex = new RegExp(`\\b(${professionPattern})\\b`, "g");
   return text.match(regex) || [];
 }
